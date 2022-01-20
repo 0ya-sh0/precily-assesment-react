@@ -72,6 +72,13 @@
   transition: opacity 0.1s;
 }
 
+.btn[disabled] {
+  background-color: gray !important;
+  color: black !important;
+  opacity: 1 !important;
+  cursor: default !important;
+}
+
 .btn-small {
   padding: 4px;
   font-size: 16px;
@@ -95,6 +102,7 @@
 }
 
 .btn-primary {
+  border: 2px solid #212841;
   background-color: #212841;
   color: white;
 }
