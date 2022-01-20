@@ -47,11 +47,11 @@
 }
 
 .btn[disabled] {
-  background-color: gray !important;
+  background-color: #eee !important;
   color: black !important;
   opacity: 1 !important;
-  border: 2px solid gray !important;
-  cursor: default !important;
+  border: 2px solid #eee !important;
+  cursor: not-allowed !important;
 }
 
 .btn-small {

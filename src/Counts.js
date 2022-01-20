@@ -1,11 +1,13 @@
+import "./Counts.css";
+
 export default function Counts({ postTaskCount = 0, putTaskCount = 0, deleteTaskCount = 0 }) {
     return (
         <div className='panel'>
             <h2>API Call Counts</h2>
-            <ul style={{ paddingLeft: "16px" }}>
-                <li><span>POST /tasks</span> : {postTaskCount}</li>
-                <li><span>PUT /tasks/id</span> : {putTaskCount}</li>
-                <li><span>DELETE /tasks/id</span> : {deleteTaskCount}</li>
+            <ul className="counts">
+                <li className="count"><span className="count-name">POST /tasks</span>{"=>"}<span className="count-value">{postTaskCount}</span></li>
+                <li className="count"><span className="count-name">PUT /tasks/:id</span>{"=>"}<span className="count-value">{putTaskCount}</span></li>
+                <li className="count"><span className="count-name">DELETE /tasks/:id</span>{"=>"}<span className="count-value">{deleteTaskCount}</span></li>
             </ul>
         </div>
     );

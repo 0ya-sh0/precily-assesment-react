@@ -1,0 +1,33 @@
+.logs {
+    margin-top: 10px;
+    max-height: calc(100% - 40px);
+    overflow: auto;
+    list-style: none;
+    padding: 0 10px;
+    background-color: #eee;
+}
+
+.log {
+    margin-block: 16px;
+}
+
+.log-index {
+    font-weight: bold;
+    margin-right: 8px;
+}
+
+.log-name {
+    border-radius: 2px;
+    padding: 4px;
+    margin-right: 8px;
+    background-color: #d2dcff;
+    color: #007bff;
+}
+
+.log-millis {
+    border-radius: 2px;
+    padding: 4px;
+    margin-left: 8px;
+    background-color: rgb(212, 101, 101);
+    color: white;
+}

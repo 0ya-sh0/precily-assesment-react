@@ -1,7 +1,7 @@
 import './MyTasks.css';
 import { useEffect, useRef, useState } from 'react';
 
-export default function MyTasks({ setApiCounts }) {
+export default function MyTasks({ setApiCounts, addLog }) {
   const [tasks, setTasks] = useState([])
   const [newTask, setNewTask] = useState("")
   const [editTask, setEditTask] = useState("")
@@ -9,7 +9,12 @@ export default function MyTasks({ setApiCounts }) {
   const editingRef = useRef(null);
 
   useEffect(() => {
-    fetch('/tasks').then(res => res.json()).then(json => setTasks(json.tasks))
+    fetch('/tasks')
+      .then(res => res.json())
+      .then(json => {
+        setTasks(json.tasks);
+        addLog({ name: 'GET /tasks', millis: json.millis, time: new Date() });
+      });
   }, []);
 
   useEffect(() => {
@@ -26,11 +31,11 @@ export default function MyTasks({ setApiCounts }) {
       },
       body: JSON.stringify({ text: newTask })
     }).then(res => res.json()).then(json => {
-      console.log(json)
       if (json.success) {
         setTasks([...tasks, json.task,]);
         setNewTask("");
         setApiCounts(c => ({ ...c, postTaskCount: json.count }));
+        addLog({ name: 'POST /tasks', millis: json.millis, time: new Date() })
       }
     })
   }
@@ -39,10 +44,10 @@ export default function MyTasks({ setApiCounts }) {
     fetch(`/tasks/${id}`, { method: 'DELETE', })
       .then(res => res.json())
       .then(json => {
-        console.log(json)
         if (json.success) {
           setTasks(tasks => tasks.filter(task => task._id !== id));
           setApiCounts(c => ({ ...c, deleteTaskCount: json.count }));
+          addLog({ name: `DELETE /tasks/${id}`, millis: json.millis, time: new Date() })
         }
       })
   }
@@ -56,7 +61,6 @@ export default function MyTasks({ setApiCounts }) {
       },
       body: JSON.stringify({ text: editTask })
     }).then(res => res.json()).then(json => {
-      console.log(json)
       if (json.success) {
         setEditingId("")
         setEditTask("")
@@ -65,6 +69,7 @@ export default function MyTasks({ setApiCounts }) {
           return json.task;
         }));
         setApiCounts(c => ({ ...c, putTaskCount: json.count }));
+        addLog({ name: `PUT /tasks/${editingId}`, millis: json.millis, time: new Date() })
       }
     })
 
@@ -80,8 +85,9 @@ export default function MyTasks({ setApiCounts }) {
       <h2>My Tasks</h2>
       <div style={{ display: 'flex', alignItems: 'center', justifyContent: 'start', gap: '10px' }}>
         <input
+          className='input'
           placeholder='Enter New Task'
-          style={{ fontSize: '16px', outline: 'none', padding: '6px', flexGrow: '1' }}
+          style={{ fontSize: '16px', outline: 'none', padding: '6px', flexGrow: '1', }}
           type='text' maxLength='50' value={newTask}
           onChange={(e) => setNewTask(e.target.value)} />
         <button
@@ -89,7 +95,6 @@ export default function MyTasks({ setApiCounts }) {
           className='btn btn-primary btn-add-task'
           onClick={addTask}> Add Task</button>
       </div>
-      <hr />
       <ul className='task-list'>
         {tasks.map(({ _id, text }) => (
           <li key={`task_id_${_id}`} className={`task${editingId === _id ? ' task-editing' : ''}`}>

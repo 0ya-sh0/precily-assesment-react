@@ -1,0 +1,26 @@
+.counts {
+    max-height: calc(100% - 30px);
+    overflow: auto;
+    list-style: none;
+    padding-block: 10px;
+}
+
+.count {
+    margin-block: 16px;
+}
+
+.count-name {
+    border-radius: 2px;
+    padding: 4px;
+    margin-right: 8px;
+    background-color: #d2dcff;
+    color: #007bff;
+}
+
+.count-value {
+    border-radius: 2px;
+    padding: 4px;
+    margin-inline: 8px;
+    background-color: rgb(212, 101, 101);
+    color: white;
+}
