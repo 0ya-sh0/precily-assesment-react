@@ -6,16 +6,11 @@ import { useState } from 'react';
 import { useEffect } from 'react/cjs/react.development';
 import ApiLogs from './ApiLogs';
 
-function useApiLogs() {
+function App() {
   const [apiLogs, setApiLogs] = useState([]);
   function addLog(log) {
     setApiLogs(apiLogs => [...apiLogs, log]);
   }
-  return [apiLogs, addLog];
-}
-
-function App() {
-  const [apiLogs, addLog] = useApiLogs();
   const [apiCounts, setApiCounts] = useState({ putTaskCount: 0, postTaskCount: 0, deleteTaskCount: 0 });
   useEffect(() => {
     fetch('/counts/postTask').then(res => res.json()).then(json => {
