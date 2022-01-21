@@ -11,3 +11,48 @@ body {
   -webkit-font-smoothing: antialiased;
   -moz-osx-font-smoothing: grayscale;
 }
+
+.btn {
+  display: block;
+  border: none;
+  padding: 8px 16px;
+  border-radius: 4px;
+  cursor: pointer;
+  transition: opacity 0.1s;
+}
+
+.btn[disabled] {
+  background-color: #eee !important;
+  color: black !important;
+  opacity: 1 !important;
+  border: 2px solid #eee !important;
+  cursor: not-allowed !important;
+}
+
+.btn-small {
+  padding: 4px;
+  font-size: 16px;
+  border-radius: 2px;
+}
+
+.btn:hover {
+  opacity: 0.5;
+}
+
+.btn-outline-primary {
+  background-color: white;
+  border: 2px solid #212841;
+  color: #212841;
+}
+
+.btn-outline-danger {
+  background-color: white;
+  border: 2px solid rgb(212, 101, 101);
+  color: red;
+}
+
+.btn-primary {
+  border: 2px solid #212841;
+  background-color: #212841;
+  color: white;
+}

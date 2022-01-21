@@ -1,9 +1,42 @@
-input {
+.add-task-container {
+    display: flex;
+    align-items: center;
+    justify-content: start;
+    gap: 10px;
+}
+
+.add-task-input {
+    font-size: 16px;
+    padding: 6px;
+    flex-grow: 1;
+}
+
+.task-btn-container {
+    display: flex;
+    gap: 8px;
+}
+
+.task-editing-container {
+    display: flex;
+    flex-grow: 1;
+    align-items: center;
+    justify-content: space-between;
+    gap: 8px;
+}
+
+.task-editing-input {
+    font-size: 16px;
+    padding: 5px;
+    flex-grow: 1;
+}
+
+.input {
     border-radius: 4px;
+    outline: none;
     border: 2px solid #212841;
 }
 
-input:focus {
+.input:focus {
     border: 2px solid #007bff;
 }
 

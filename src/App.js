@@ -1,33 +1,24 @@
-import './App.css';
-import MyTasks from './MyTasks';
+import { useState, useEffect } from 'react';
 import Split from 'react-split';
-import Counts from './Counts';
-import { useState } from 'react';
-import { useEffect } from 'react/cjs/react.development';
-import ApiLogs from './ApiLogs';
+
+import './App.css';
+import MyTasks from './Components/MyTasks/MyTasks';
+import Counts from './Components/Counts/Counts';
+import ApiLogs from './Components/ApiLogs/ApiLogs';
+import { fetchAllCounts } from './Service/network';
 
 function App() {
   const [apiLogs, setApiLogs] = useState([]);
+  const [apiCounts, setApiCounts] = useState({ putTaskCount: 0, postTaskCount: 0, deleteTaskCount: 0 });
+
   function addLog(log) {
     setApiLogs(apiLogs => [...apiLogs, log]);
   }
-  const [apiCounts, setApiCounts] = useState({ putTaskCount: 0, postTaskCount: 0, deleteTaskCount: 0 });
+
   useEffect(() => {
-    fetch('/counts/postTask').then(res => res.json()).then(json => {
-      setApiCounts(c => ({ ...c, postTaskCount: json.count }))
-      addLog({ name: 'GET /counts/postTask', millis: json.millis, time: new Date() })
-    });
-
-    fetch('/counts/putTask').then(res => res.json()).then(json => {
-      setApiCounts(c => ({ ...c, putTaskCount: json.count }))
-      addLog({ name: 'GET /counts/putTask', millis: json.millis, time: new Date() })
-    });
-
-    fetch('/counts/deleteTask').then(res => res.json()).then(json => {
-      setApiCounts(c => ({ ...c, deleteTaskCount: json.count }))
-      addLog({ name: 'GET /counts/deleteTask', millis: json.millis, time: new Date() })
-    });
+    fetchAllCounts(addLog).then(setApiCounts);
   }, []);
+
   return (
     <div className="app">
       <header className='header'>
@@ -35,13 +26,16 @@ function App() {
           Precily Assignment - Split Panes
         </h1>
       </header>
-      <Split minSize={[240, 150]} gutterSize={14} style={{ height: 'calc(100vh - 100px)' }} direction='vertical'>
-        <Split minSize={[360, 240]} gutterSize={14} style={{ width: '100vw', display: 'flex' }} direction='horizontal'>
+
+      <Split className='v-panel-container' minSize={[240, 150]} gutterSize={14} direction='vertical'>
+        <Split className='h-panel-container' minSize={[360, 240]} gutterSize={14} direction='horizontal'>
           <MyTasks setApiCounts={setApiCounts} addLog={addLog} />
           <Counts {...apiCounts} />
         </Split>
+
         <ApiLogs apiLogs={apiLogs} />
       </Split>
+
       <footer className='footer'>
         Made By - Yash Thatte
       </footer>
