@@ -28,18 +28,29 @@ export default function MyTasks({ setApiCounts, addLog }) {
   function deleteTaskHandler(id) {
     deleteTask(id, addLog, setApiCounts).then(() => {
       setTasks(tasks => tasks.filter(task => task._id !== id));
+    }).catch(err => {
+      console.error(err);
+      if (err.message === 'Deleting Deleted Task') {
+        setTasks(tasks => tasks.filter(task => task._id !== id));
+      }
     });
   }
 
   function saveTaskHandler() {
     saveTask(editingTask._id, editingTask.text, addLog, setApiCounts)
       .then(task => {
-        setEditingTask(null);
         setTasks(tasks => tasks.map(t => {
           if (t._id !== task._id) return t;
           return task;
         }));
-      });
+        setEditingTask(null);
+      }).catch(err => {
+        console.error(err);
+        if (err.message === 'Editing Deleted Task') {
+          setTasks(tasks => tasks.filter(task => task._id !== editingTask._id));
+          setEditingTask(null);
+        }
+      })
   }
 
   function resetTaskHandler() {

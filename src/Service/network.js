@@ -44,8 +44,9 @@ export async function deleteTask(id, addLog, setApiCounts) {
         .then(res => res.json())
     addLog({ name: `DELETE /tasks/${id}`, millis: json.millis, time: new Date() })
     setApiCounts(c => ({ ...c, deleteTaskCount: json.count }));
-
-    return;
+    if (json.success && json.deletedCount === 1)
+        return;
+    throw new Error('Deleting Deleted Task');
 }
 
 export async function saveTask(id, task, addLog, setApiCounts) {
@@ -58,6 +59,7 @@ export async function saveTask(id, task, addLog, setApiCounts) {
     }).then(res => res.json())
     addLog({ name: `PUT /tasks/${id}`, millis: json.millis, time: new Date() })
     setApiCounts(c => ({ ...c, putTaskCount: json.count }));
-
-    return json.task;
+    if (json.success && json.modifiedCount === 1 && json.task)
+        return json.task;
+    throw new Error('Editing Deleted Task')
 }
